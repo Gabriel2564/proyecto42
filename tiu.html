@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>TIU Virtual</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    min-height: 100%;
+    background: #f3f2f7;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  /* === Ajustes finos: cambia solo estos valores si algo no calza ===
+     - clock-top / date-top: posición vertical (en % del alto del carnet)
+     - clock-size / date-size: tamaño del texto (en % del ancho del carnet) */
+  :root {
+    --clock-top: 14.4%;
+    --date-top:  20.7%;
+    --clock-size: 2cqw;
+    --date-size:  0.9cqw;
+  }
+
+  /* Contenedor: toma el ancho natural de la imagen (hasta 430px).
+     Como usamos un <img> real, la altura sale automáticamente de su proporción
+     y no hay ningún zoom ni recorte. */
+  .carnet {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    margin: 0 auto;
+  }
+
+  .carnet .bg {
+    display: block;
+    width: 100%;
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+    pointer-events: none;
+  }
+
+  /* Reloj: centrado dentro del recuadro violeta vacío de la imagen */
+  .clock {
+    position: absolute;
+    top: var(--clock-top);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--clock-size);
+    font-weight: 500;
+    color: #1a1a1a;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 1px;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Fecha: justo debajo del recuadro */
+  .date {
+    position: absolute;
+    top: var(--date-top);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--date-size);
+    color: #4a4a57;
+    text-transform: capitalize;
+    white-space: nowrap;
+  }
+
+  /* Como ahora los tamaños son % del ancho del contenedor (no del viewport),
+     el texto escala igual en móvil y en PC y no hace falta el @media. */
+</style>
+</head>
+<body>
+  <div class="carnet">
+    <img class="bg" src="melissa.jpg" alt="Carnet TIU Virtual" />
+    <div class="clock" id="clock">00:00:00</div>
+    <div class="date"  id="date">—</div>
+  </div>
+
+<script>
+  const pad = (n) => String(n).padStart(2, "0");
+  const DIAS  = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+  const MESES = ["Ene","Feb","Mar","Abr","May","Jun","Jul","Ago","Sep","Oct","Nov","Dic"];
+
+  function render() {
+    const now = new Date();
+    document.getElementById("clock").textContent =
+      `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+    document.getElementById("date").textContent =
+      `${DIAS[now.getDay()]}, ${now.getDate()} ${MESES[now.getMonth()]} ${now.getFullYear()}`;
+  }
+
+  render();
+  setInterval(render, 1000);
+</script>
+</body>
+</html>
