@@ -2,8 +2,22 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 <title>TIU Virtual</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#d7182a" />
+<link rel="icon" type="image/png" href="favicon.png" />
+
+<!-- iOS: agregar a pantalla de inicio en modo app -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="TIU Virtual" />
+<link rel="apple-touch-icon" href="icon-192.png" />
+
+<!-- Android Chrome -->
+<meta name="mobile-web-app-capable" content="yes" />
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -22,12 +36,16 @@
 
   /* === Ajustes finos: cambia solo estos valores si algo no calza ===
      - clock-top / date-top: posición vertical (en % del alto del carnet)
-     - clock-size / date-size: tamaño del texto (en % del ancho del carnet) */
+     - clock-size / date-size: tamaño del texto con clamp(min, preferido, max)
+         · min: nunca más chico que ese valor (en px)
+         · preferido: escala con el ancho de la pantalla (vw = % del viewport)
+         · max: nunca más grande que ese valor (en px)
+       Sube/baja los 3 números para cambiar el tamaño. */
   :root {
     --clock-top: 14.4%;
     --date-top:  20.7%;
-    --clock-size: 2cqw;
-    --date-size:  0.9cqw;
+    --clock-size: clamp(28px, 9vw, 44px);
+    --date-size:  clamp(14px, 4.5vw, 22px);
   }
 
   /* Contenedor: toma el ancho natural de la imagen (hasta 430px).
@@ -102,6 +120,13 @@
 
   render();
   setInterval(render, 1000);
+
+  // Registro del service worker (hace que la app funcione sin internet)
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
 </script>
 </body>
 </html>
