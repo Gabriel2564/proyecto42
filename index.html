@@ -7,7 +7,7 @@
 
 <!-- PWA -->
 <link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#f3f2f7" />
+<meta name="theme-color" content="#d7182a" />
 <link rel="icon" type="image/png" href="favicon.png" />
 
 <!-- iOS: agregar a pantalla de inicio en modo app -->
@@ -34,6 +34,13 @@
     align-items: flex-start;
   }
 
+  /* === Ajustes finos: cambia solo estos valores si algo no calza ===
+     - clock-top / date-top: posición vertical (en % del alto del carnet)
+     - clock-size / date-size: tamaño del texto con clamp(min, preferido, max)
+         · min: nunca más chico que ese valor (en px)
+         · preferido: escala con el ancho de la pantalla (vw = % del viewport)
+         · max: nunca más grande que ese valor (en px)
+       Sube/baja los 3 números para cambiar el tamaño. */
   :root {
     --clock-top: 14.4%;
     --date-top:  20.7%;
@@ -41,6 +48,9 @@
     --date-size:  clamp(14px, 4.5vw, 22px);
   }
 
+  /* Contenedor: toma el ancho natural de la imagen (hasta 430px).
+     Como usamos un <img> real, la altura sale automáticamente de su proporción
+     y no hay ningún zoom ni recorte. */
   .carnet {
     position: relative;
     width: 100%;
@@ -57,6 +67,7 @@
     pointer-events: none;
   }
 
+  /* Reloj: centrado dentro del recuadro violeta vacío de la imagen */
   .clock {
     position: absolute;
     top: var(--clock-top);
@@ -71,6 +82,7 @@
     white-space: nowrap;
   }
 
+  /* Fecha: justo debajo del recuadro */
   .date {
     position: absolute;
     top: var(--date-top);
@@ -81,6 +93,9 @@
     text-transform: capitalize;
     white-space: nowrap;
   }
+
+  /* Como ahora los tamaños son % del ancho del contenedor (no del viewport),
+     el texto escala igual en móvil y en PC y no hace falta el @media. */
 </style>
 </head>
 <body>
@@ -106,6 +121,7 @@
   render();
   setInterval(render, 1000);
 
+  // Registro del service worker (hace que la app funcione sin internet)
   if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
       navigator.serviceWorker.register("sw.js").catch(() => {});
