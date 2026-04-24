@@ -1,13 +1,13 @@
 const CACHE = "tiu-virtual-v2";
 const ASSETS = [
-  "/tiu-pwa/",
-  "/tiu-pwa/index.html",
-  "/tiu-pwa/melissa.jpg",
-  "/tiu-pwa/manifest.json",
-  "/tiu-pwa/icon-192.png",
-  "/tiu-pwa/icon-512.png",
-  "/tiu-pwa/icon-maskable-512.png",
-  "/tiu-pwa/favicon.png"
+  "/proyecto42/",
+  "/proyecto42/index.html",
+  "/proyecto42/melissa.jpg",
+  "/proyecto42/manifest.json",
+  "/proyecto42/icon-192.png",
+  "/proyecto42/icon-512.png",
+  "/proyecto42/icon-maskable-512.png",
+  "/proyecto42/favicon.png"
 ];
 
 self.addEventListener("install", (e) => {
