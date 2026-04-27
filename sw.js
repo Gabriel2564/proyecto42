@@ -1,13 +1,19 @@
-const CACHE = "tiu-virtual-v2";
+const CACHE = "tiu-virtual-v3";
+
+// Detecta automaticamente si estamos en localhost o en GitHub Pages
+const BASE = self.location.pathname.includes("/proyecto42/")
+  ? "/proyecto42"
+  : "";
+
 const ASSETS = [
-  "/proyecto42/",
-  "/proyecto42/index.html",
-  "/proyecto42/melissa.jpg",
-  "/proyecto42/manifest.json",
-  "/proyecto42/icon-192.png",
-  "/proyecto42/icon-512.png",
-  "/proyecto42/icon-maskable-512.png",
-  "/proyecto42/favicon.png"
+  `${BASE}/`,
+  `${BASE}/index.html`,
+  `${BASE}/melissa.jpg`,
+  `${BASE}/manifest.json`,
+  `${BASE}/icon-192.png`,
+  `${BASE}/icon-512.png`,
+  `${BASE}/icon-maskable-512.png`,
+  `${BASE}/favicon.png`
 ];
 
 self.addEventListener("install", (e) => {
